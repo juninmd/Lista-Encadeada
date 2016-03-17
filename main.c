@@ -11,7 +11,7 @@ void menuPrincipal();
 void inserirElemento();
 int removerElemento();
 void imprimir();
-
+int removerElemento();
 /*
 	Struct NO
 	Toda atribuição irá gerar uma instância nova com o nome (p)
@@ -67,6 +67,11 @@ int main(int argc, char *argv[]) {
 			   	printf("%d sera o novo número",valor);
 			   }
 			    
+				break;
+			}
+			case 6:{
+			   int valor = removerUltimoElemento(&inicio);
+		 		    
 				break;
 			}
 		}
@@ -187,18 +192,16 @@ int removerUltimoElemento(struct no **inicio){
  		return -1;
 	 }
 	 	
-	int i = 0; 	
- 	struct no *p, *q;
- 	
+	struct no *p;
+	struct no *q;
  	p = *inicio;
  	q = *inicio;
  	
- 	while(p != NULL){
- 	 
- 		p = p->prox;
- 		 
-	 }
- 	
+	while(q->prox != NULL){
+		q = q->prox;
+	}
+	q->prox = p;
+
  	*inicio = (*inicio)->prox; 
  
  	free (p);
