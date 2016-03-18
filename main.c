@@ -12,6 +12,8 @@ void inserirElemento();
 int removerElemento();
 void imprimir();
 int removerElemento();
+void inserirUltimoElemento();
+
 /*
 	Struct NO
 	Toda atribuição irá gerar uma instância nova com o nome (p)
@@ -74,6 +76,16 @@ int main(int argc, char *argv[]) {
 		 		    
 				break;
 			}
+			case 7:{
+			     inserirUltimoElemento(&inicio);
+		 		    
+				break;
+			}
+			case 8:{
+			    procurarExistencia(&inicio);
+				getch();
+				break;
+			}
 		}
 	}while(tecla != 9);
    
@@ -88,6 +100,8 @@ void menuPrincipal(){
 	printf("4) Media\n");
 	printf("5) Remover Primeiro Elemento\n");
 	printf("6) Remover Último Elemento\n");
+	printf("7) Adicionar no final\n");
+	printf("8) Procurar número\n");
 	printf("\n9) Sair\n\n");
 }
 
@@ -197,14 +211,103 @@ int removerUltimoElemento(struct no **inicio){
  	p = *inicio;
  	q = *inicio;
  	
-	while(q->prox != NULL){
-		q = q->prox;
-	}
-	q->prox = p;
+ 	while(p != NULL){
+ 			q = p;
+ 			p = p->prox;
+	 }
+ 	
 
- 	*inicio = (*inicio)->prox; 
- 
- 	free (p);
-	p = NULL;
+ 	*inicio = q;
+   
  	return 0;	
+}
+
+void inserirUltimoElemento(struct no **inicio){
+	
+	int x = 0;
+	printf("Entre com um elemento: ");
+	scanf("%d", &x);
+	
+	struct no *p, *q;
+   
+  	if((p=malloc(sizeof(struct no))) == NULL){
+  		printf("Falha na alocação da memória\n\n");
+	  }
+	  else{
+	  	p->info = x;
+	  	p->prox = NULL;
+	  	
+	  	if(*inicio == NULL)
+	  		*inicio = p;
+	  	else{
+	  		q = *inicio;
+	  		
+			while(q->prox != NULL)
+				q = q->prox;
+				
+			q->prox = p;
+				
+		 }
+	  }
+
+ 	*inicio = q; 
+	printf("Elemento %d inserido!\n",x);
+ 
+}
+ 
+
+void procurarExistencia (struct no ** inicio)
+{
+	int x = 0;
+	printf("Entre com um elemento: ");
+	scanf("%d", &x);
+   
+  	struct no *p;
+ 	p= *inicio;
+ 	
+   while (p != NULL && p->info != x) 
+      p = p->prox; 
+      
+    if(p == NULL){
+    	printf("Não foi encontrado \n");
+	}
+	else{
+		printf("Foi encontrado \n");
+	}
+   
+}
+
+void iniciarMeio (struct no ** inicio)
+{
+	int x = 0;
+	printf("Entre com um elemento: ");
+	scanf("%d", &x);
+   
+  	struct no *p;
+ 	p= *inicio;
+ 	
+   while (p != NULL && p->info != x) 
+      p = p->prox; 
+      
+    if(p == NULL){
+    	printf("Não foi encontrado \n");
+	}
+	else{
+		printf("Foi encontrado \n");
+	}
+	
+	
+	if(p != NULL){
+			int contagem = 0;
+ 		
+	 if(inicio != NULL){
+	 	
+ 			while(p != NULL){
+ 				contagem++; 
+ 				p = p->prox;
+ 			
+ 			}
+		}
+	}
+   
 }
