@@ -15,6 +15,7 @@ int removerElemento();
 void inserirUltimoElemento();
 int maiorNumeroVetor();
 int removerUltimoElemento();
+void iniciarMeio();
 
 /*
 	Struct NO
@@ -102,14 +103,19 @@ int main(int argc, char *argv[]) {
 				break;
 			}
 			case 10:{
-		    int valor = maiorNumeroVetor(&inicio);
-		      if(valor != -1){
+		   		int valor = maiorNumeroVetor(&inicio);
+		      	if(valor != -1){
 			   	printf("%d é o maior número",valor);
 			   		getch();
-			   }
+			  	}
 		
-			break;
+				break;
 			}
+			case 11:{
+		   	  iniciarMeio(&inicio);
+		   	  	break;
+				}
+		
 			
 		}
 	}while(tecla != 9);
@@ -132,6 +138,7 @@ void menuPrincipal(){
 	printf("7) Adicionar no final\n");
 	printf("8) Procurar número\n");
 	printf("10) Maior número\n");
+	printf("11) Verifica existência / caso não insere no meio \n");
 	printf("\n9) Sair\n\n");
 }
 
@@ -210,6 +217,8 @@ void inserirElemento(struct no **inicio){
 		printf("Elemento inserido!\n");
  
 }
+
+
 void inserirUltimoElemento(struct no **inicio){
 	
 	int x = 0;
@@ -376,40 +385,68 @@ void procurarExistencia (struct no ** inicio)
    
 }
 
-void iniciarMeio (struct no ** inicio)
+void iniciarMeio(struct no ** inicio)
 {
 	int x = 0;
-	printf("Entre com um elemento: ");
+	printf("Entre com um elemento para buscar: ");
 	scanf("%d", &x);
    
   	struct no *p;
  	p= *inicio;
- 	
-   while (p != NULL && p->info != x) 
-      p = p->prox; 
-      
-    if(p == NULL){
-    	printf("Não foi encontrado \n");
-	}
-	else{
-		printf("Foi encontrado \n");
-	}
-	
-	
-	if(p != NULL){
-			int contagem = 0;
- 		
-	 if(inicio != NULL){
-	 	
- 			while(p != NULL){
- 				contagem++; 
- 				p = p->prox;
- 			
- 			}
+ 
+   while (p != NULL) {
+   	
+   	    if(p->info == x){
+			printf("Foi encontrado, não vamos inserir \n");
+			getch();
+			return;
+    	
 		}
+		p = p->prox;
+   }
+     
+      
+
+ 	struct no *q;
+ 	
+	if((q=malloc(sizeof(struct no))) == NULL){
+		printf("Falha na alocação da memória\n\n");
+		getch();
+ 	}
+	  
+ 	
+	printf("Não foi encontrado, vamos inserir no meio \n");
+ 
+	int contagem = 0;
+	p= *inicio;
+	while(p != NULL){
+		contagem++; 
+		p = p->prox;
 	}
-   
-}
+	
+	int posicao = 0;
+ 
+		posicao  = (contagem / 2) + 1;
+		int i = 0;
+		p= *inicio;
+		while(p != NULL){
+		
+			if(posicao == i)
+			{
+				q->info = x;
+				q->prox = p->prox;
+				p = q;
+			}
+			else{
+				p = p->prox;
+			}
+			
+				i++; 
+		}
+		inicio = p;
+		
+ }
+ 
 int maiorNumeroVetor(struct no **inicio){
 	
 	int mostValue = 0;
@@ -424,3 +461,4 @@ int maiorNumeroVetor(struct no **inicio){
 	  
 	  return mostValue;
 }
+
