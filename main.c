@@ -2,22 +2,7 @@
 #include <stdlib.h>
 #include <locale.h>
  
- 
-/*
- 	Fazemos um sumário dos métodos para que possa ser compilado sem erros pelo Dev-c++ o código.
-*/
-float calcularMedia();
-void menuPrincipal();
-void inserirElemento();
-int removerElemento();
-void imprimir();
-int removerElemento();
-void inserirUltimoElemento();
-int maiorNumeroVetor();
-int removerUltimoElemento();
-void iniciarMeio();
-
-/*
+ /*
 	Struct NO
 	Toda atribuição irá gerar uma instância nova com o nome (p)
 	o atributo [prox] na verdade sempre será o [valor] anterior.
@@ -31,6 +16,22 @@ struct no{
 	int info;
 	struct no * prox;
 };
+
+
+ 
+/*
+ 	Fazemos um sumário dos métodos para que possa ser compilado sem erros pelo Dev-c++ o código.
+*/
+float calcularMedia();
+void menuPrincipal();
+void inserirElemento();
+int removerElemento();
+void imprimir();
+void inserirUltimoElemento();
+int maiorNumeroVetor();
+int removerUltimoElemento(struct no **inicio);
+void iniciarMeio();
+void procurarExistencia (struct no *inicio);
 
 /*
  	Método Main, será responsável por administrar o valor
@@ -98,7 +99,7 @@ int main(int argc, char *argv[]) {
 				break;
 			}
 			case 8:{
-			    procurarExistencia(&inicio);
+			    procurarExistencia(inicio);
 				getch();
 				break;
 			}
@@ -358,19 +359,19 @@ int removerUltimoElemento(struct no **inicio){
 	
 	q->prox = NULL;
 	
-	inicio = q;
+	*inicio = q;
 	return p->info;
  
 }
 
-void procurarExistencia (struct no ** inicio)
+void procurarExistencia (struct no *inicio)
 {
 	int x = 0;
 	printf("Entre com um elemento: ");
 	scanf("%d", &x);
    
   	struct no *p;
- 	p= *inicio;
+ 	p= inicio;
  	
    while (p != NULL && p->info != x) 
       p = p->prox; 
@@ -419,6 +420,7 @@ void iniciarMeio(struct no ** inicio)
  
 	int contagem = 0;
 	p= *inicio;
+ 
 	while(p != NULL){
 		contagem++; 
 		p = p->prox;
@@ -426,32 +428,33 @@ void iniciarMeio(struct no ** inicio)
 	
 	int posicao = 0;
  
-		posicao  = (contagem / 2) + 1;
+		posicao  = (contagem / 2);
 		int i = 0;
 		p= *inicio;
 		while(p != NULL){
-		
+			
+			i++; 
+			
 			if(posicao == i)
 			{
 				q->info = x;
 				q->prox = p->prox;
-				p = q;
+				p->prox = q;				
 			}
 			else{
 				p = p->prox;
-			}
+			}		
 			
-				i++; 
 		}
-		inicio = p;
-		
+		*inicio = p;
+		getch();
  }
  
-int maiorNumeroVetor(struct no **inicio){
+int maiorNumeroVetor(struct no *inicio){
 	
 	int mostValue = 0;
 	struct no *p;
-	p = *inicio;
+	p = inicio;
 	  while (p != NULL && p->info != mostValue) {
 	  	if(p->info > mostValue){
 	  		mostValue = p->info;
